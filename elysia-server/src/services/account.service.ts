@@ -2,7 +2,7 @@ import { User } from "../models/user.model"
 import { login, register, user } from "../type/accout.type"
 
 export const AccountService = {
-    login: function (loginData: login): Promise<user> {
+    login: async function (loginData: login): Promise<user> {
         const user = await User.findOne({ username: loginData.username })
             .exec()
         if (!user)

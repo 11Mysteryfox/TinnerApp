@@ -20,6 +20,7 @@ export const _profile = t.Object({
     introduction: t.Optional(t.String()),
     interest: t.Optional(t.String()),
     location: t.Optional(t.String()),
+    age: t.Optional(t.String()),
     last_active: t.Optional(t.String()),
     created_at: t.Optional(t.String()),
     updated_at: t.Optional(t.String()),
@@ -31,7 +32,7 @@ export const _user = t.Object({
     //following: profile[]
 })
 
-export const _accout = t.Object({
+export const _userAndToken = t.Object({
     user: _user,
     token: t.String()
 })
@@ -39,7 +40,7 @@ export const _accout = t.Object({
 export const AccountDto = new Elysia().model({
     register: _register,
     login: _login,
-    account: _accout
+    user_and_token: _userAndToken
 })
 
 export type user = Static<typeof _user>
