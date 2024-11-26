@@ -11,7 +11,8 @@ export const _register = t.Object({
     password: t.String(),
     display_name: t.String(),
     date_of_birth: t.Optional(t.Date()),
-    looking_for: t.Union([t.Literal('male'), t.Literal('famale'), t.Literal('all')])
+    looking_for: t.Union([t.Literal('male'), t.Literal('female'), t.Literal('all')]),
+    gender: t.Optional(t.Union([t.Literal('male'), t.Literal('female'), t.Literal('all')]))
 })
 
 export const _profile = t.Object({
