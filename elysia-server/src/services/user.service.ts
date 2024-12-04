@@ -1,11 +1,12 @@
-import mongoose, { RootFilterQuery } from "mongoose"
+import mongoose, { get, RootFilterQuery } from "mongoose"
 import { updateProfile, user, userPagination, userPaginator } from "../type/user.type"
 import { IUserDocument } from "../interfaces/user.interfaces"
 import { QueryHelper } from "../helpers/query.helper"
 import { User } from "../models/user.model"
+import { profile } from "bun:jsc"
 
 export const UserService = {
-    get: function (pagination: userPagination, user_id: string): Promise<userPaginator> {
+    get: async function (pagination: userPagination, user_id: string): Promise<userPaginator> {
         let filter: RootFilterQuery<IUserDocument> = {
             _id: { $nin: new mongoose.Types.ObjectId(user_id) },
             $and: QueryHelper.parseUserQuery(pagination)
@@ -15,7 +16,7 @@ export const UserService = {
         query.skip(skip).limit(pagination.pageSize)
 
         const [docs, total] = await Promise.all([
-            query.exec()
+            query.exec(),
             User.countDocuments(filter).exec()
         ])
 
@@ -26,11 +27,17 @@ export const UserService = {
         }
     },
 
-    getByUserName: function (username: string): Promise<user> {
-        throw new Error('not implement')
-    },
+    // getByUserName: async function (username: string): Promise<user> {
+    //     const user = await User.findOne({ username }).exec()
+    //     if (user)
+    //         return user.toUser()
+    //     throw new Error(`username: "${username}" not found !!`)
+    // },
 
-    updateProfile: function (newProfile: updateProfile, user_id: string): Promise<user> {
-        throw new Error('not implement')
+    updateProfile: async function (newProfile: updateProfile, user_id: string): Promise<user> {
+        const user = await User.findByIdAndUpdate(user_id, { $set: newProfile }, { new: true, runValidators: true })
+        if (user)
+            return user.toUser()
+        throw new Error('Someting went wrong,try again later !!')
     }
 }
