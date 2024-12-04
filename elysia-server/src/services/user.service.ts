@@ -2,6 +2,7 @@ import mongoose, { RootFilterQuery } from "mongoose"
 import { updateProfile, user, userPagination, userPaginator } from "../type/user.type"
 import { IUserDocument } from "../interfaces/user.interfaces"
 import { QueryHelper } from "../helpers/query.helper"
+import { User } from "../models/user.model"
 
 export const UserService = {
     get: function (pagination: userPagination, user_id: string): Promise<userPaginator> {
@@ -9,7 +10,20 @@ export const UserService = {
             _id: { $nin: new mongoose.Types.ObjectId(user_id) },
             $and: QueryHelper.parseUserQuery(pagination)
         }
-        throw new Error('not implement')
+        const query = User.find(filter).sort({ last_active: -1 })
+        const skip = pagination.pageSize * (pagination.currentPage - 1)
+        query.skip(skip).limit(pagination.pageSize)
+
+        const [docs, total] = await Promise.all([
+            query.exec()
+            User.countDocuments(filter).exec()
+        ])
+
+        pagination.length = total
+        return {
+            pagination: pagination,
+            items: docs.map(doc => doc.toUser())
+        }
     },
 
     getByUserName: function (username: string): Promise<user> {
