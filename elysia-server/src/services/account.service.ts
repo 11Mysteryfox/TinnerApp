@@ -4,6 +4,7 @@ import { login, register, user } from "../type/accout.type"
 export const AccountService = {
     login: async function (loginData: login): Promise<user> {
         const user = await User.findOne({ username: loginData.username })
+            .populate("Photos")
             .exec()
         if (!user)
             throw new Error("User does not exist")
