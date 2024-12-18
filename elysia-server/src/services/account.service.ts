@@ -4,7 +4,18 @@ import { login, register, user } from "../type/accout.type"
 export const AccountService = {
     login: async function (loginData: login): Promise<user> {
         const user = await User.findOne({ username: loginData.username })
-            .populate("Photos")
+            .populate("photos")
+
+            .populate({
+                path: "following",
+                select: "_id"
+            })
+            .populate({
+                path: "followers",
+                select: "_id"
+            })
+
+
             .exec()
         if (!user)
             throw new Error("User does not exist")

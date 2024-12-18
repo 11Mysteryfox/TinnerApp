@@ -23,7 +23,7 @@ export const PhotoService = {
                 gravity: 'face'
             }
         })
-        if (!cloudPhoto.photo_id || !cloudPhoto.secure_url)
+        if (!cloudPhoto.public_id || !cloudPhoto.url)
             throw new Error("Somthing went wrong,try again later!!")
 
         const uploadPhoto = new Photo({
@@ -40,12 +40,34 @@ export const PhotoService = {
         return uploadPhoto.toPhoto()
     },
     get: async function (user_id: string): Promise<photo[]> {
-        throw new Error("not implement")
+        const photoDocs = await Photo.find({ user: user_id }).exec()
+        const photos = photoDocs.map(doc => doc.toPhoto())
+        return photos
     },
     delete: async function (photo_id: string): Promise<boolean> {
-        throw new Error("not implement")
+        const doc = await Photo.findById(photo_id).exec()
+        if (!doc)
+            throw new Error(`photo ${photo_id} not existing`)
+        await User.findByIdAndUpdate(doc.user, {
+            $pull: { photos: photo_id }
+        })
+        await Photo.findByIdAndDelete(photo_id)
+
+        await Cloudinary.uploader.destroy(doc.public_id)
+
+        return true
     },
     setAvatar: async function (photo_id: string, user_id: string): Promise<boolean> {
-        throw new Error("not implement")
+        await Photo.updateMany(
+            { user: new mongoose.Types.ObjectId(user_id) },
+            { $set: { is_avatar: false } }
+        )
+
+        const result = await Photo.findByIdAndUpdate(photo_id,
+            { $set: { is_avatar: true } },
+            { new: true }
+        )
+
+        return !!result
     },
 }
