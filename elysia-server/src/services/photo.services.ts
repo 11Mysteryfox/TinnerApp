@@ -23,7 +23,7 @@ export const PhotoService = {
                 gravity: 'face'
             }
         })
-        if (!cloudPhoto.public_id || !cloudPhoto.url)
+        if (!cloudPhoto.public_id || !cloudPhoto.secure_url)
             throw new Error("Somthing went wrong,try again later!!")
 
         const uploadPhoto = new Photo({
@@ -35,15 +35,17 @@ export const PhotoService = {
         await uploadPhoto.save()
         await User.findByIdAndUpdate(
             user_id,
-            // return uploadPhoto.toPhoto()
+            { $push: { photos: uploadPhoto._id } }
         )
         return uploadPhoto.toPhoto()
     },
-    get: async function (user_id: string): Promise<photo[]> {
+
+    getPhotos: async function (user_id: string): Promise<photo[]> {
         const photoDocs = await Photo.find({ user: user_id }).exec()
         const photos = photoDocs.map(doc => doc.toPhoto())
         return photos
     },
+
     delete: async function (photo_id: string): Promise<boolean> {
         const doc = await Photo.findById(photo_id).exec()
         if (!doc)
@@ -57,6 +59,7 @@ export const PhotoService = {
 
         return true
     },
+
     setAvatar: async function (photo_id: string, user_id: string): Promise<boolean> {
         await Photo.updateMany(
             { user: new mongoose.Types.ObjectId(user_id) },

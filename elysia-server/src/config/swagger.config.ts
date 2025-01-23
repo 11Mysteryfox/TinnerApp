@@ -7,8 +7,8 @@ export const swaggerConfig = swagger({
             title: "Tinner App API",
             version: "1.0.1"
         },
-        tags: [
-            { name: 'Example', description: 'My example endpoints' },
-        ]
+        // tags: [
+        //     { name: 'Example', description: 'My example endpoints' },
+        // ]
     }
 })

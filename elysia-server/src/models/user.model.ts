@@ -1,10 +1,11 @@
 import mongoose from "mongoose"
 import { IUserDocument, IUserModel } from "../interfaces/user.interfaces"
 import { register } from "../type/accout.type"
-import { calculateAge } from "../helpers/age.helper"
-import { user } from "../type/accout.type"
+import { calculateAge } from "../helpers/date.helper"
+//import { user } from "../type/accout.type"
 import { Photo } from "./photo.model"
 import { photo } from "../type/photo.type"
+import { user } from "../type/user.type"
 
 
 const schema = new mongoose.Schema<IUserDocument, IUserModel>({
@@ -30,15 +31,15 @@ const schema = new mongoose.Schema<IUserDocument, IUserModel>({
 //     user: {type:mongoose.}
 // })
 
-schema.methods.toPhoto = function (): photo {
-    return {
-        id: this._id.toString(),
-        url: this.url,
-        public_id: this.public_id,
-        is_avatar: this.is_avatar,
-        created_at: this.created_at
-    }
-}
+// schema.methods.toPhoto = function (): photo {
+//     return {
+//         id: this._id.toString(),
+//         url: this.url,
+//         public_id: this.public_id,
+//         is_avatar: this.is_avatar,
+//         created_at: this.created_at
+//     }
+// }
 
 schema.methods.toUser = function (): user {
     let ageString = 'N/A'
@@ -76,12 +77,12 @@ schema.methods.toUser = function (): user {
         last_active: this.last_active,
         introduction: this.introduction,
         interest: this.interest,
-        looking_for: this.looking_for,
+        looking_for: this.looking_for ?? 'all',
         location: this.location,
         gender: this.gender,
         // todo: photo feature
         photos: userPhotos,
-        // todo: like feature
+
         following: following,
         followers: followers,
     }

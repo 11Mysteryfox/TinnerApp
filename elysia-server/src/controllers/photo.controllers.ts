@@ -44,11 +44,12 @@ export const PhotoController = new Elysia({
     }, {
         detail: { summary: "Delete photo by photo_id" },
         isSignIn: true,
-        params: t.Object({ photo_id: t.String() })
+        params: "photo_id" //t.Object({ photo_id: t.String() })
     })
+
     .get('/', async ({ Auth }) => {
         const user_id = (Auth.payload as AuthPayload).id
-        return await PhotoService.get(user_id)
+        return await PhotoService.getPhotos(user_id)
     }, {
         detail: { summary: "Get Photo[] by user_id" },
         isSignIn: true,

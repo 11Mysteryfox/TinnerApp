@@ -9,11 +9,13 @@ import { AccountController } from "./controllers/account.controller"
 import { UserController } from "./controllers/user.controller"
 import staticPlugin from "@elysiajs/static"
 import { PhotoController } from "./controllers/photo.controllers"
+import { ErrorController } from "./controllers/errorController"
 
 
 MongoDB.connect()
 
 const app = new Elysia()
+  .use(ErrorController)
   .use(cors())
   .use(jwtConfig)
   .use(swaggerConfig)

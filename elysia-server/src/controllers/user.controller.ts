@@ -10,12 +10,14 @@ export const UserController = new Elysia({
 })
     .use(UserDto)
     .use(AuthMiddleWare)
+
     .get('/all', () => {
         return {
-            text: "Hello World"
+            user: [
+                { id: '1212', name: 'a' },
+                { id: '1211', name: 'b' },
+            ]
         }
-    }, {
-        isSignIn: true
     })
 
     .get('/', ({ query, Auth }) => {

@@ -3,7 +3,7 @@ import Elysia, { Static, t } from "elysia"
 export const _photo = t.Object({
     id: t.Optional(t.String()),
     url: t.String(),
-    is_avatar: t.Optional(t.String()),
+    is_avatar: t.Optional(t.Boolean()),
     created_at: t.Optional(t.Date()),
     public_id: t.String()
 })

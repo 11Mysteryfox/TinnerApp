@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import { photo } from "../type/photo.type"
 
 type photoWithOutID = Omit<photo, 'id'>
+
 export interface IPhotoDocument extends mongoose.Document, photoWithOutID {
     user: mongoose.Types.ObjectId,
     created_at?: Date,

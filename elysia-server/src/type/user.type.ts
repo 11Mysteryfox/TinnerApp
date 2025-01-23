@@ -23,6 +23,11 @@ export const _user = t.Object({
     following: t.Optional(t.Array(t.Union([t.Partial(_profile), t.String()])))
 })
 
+export const _userAndToken = t.Object({
+    user: _user,
+    token: t.String()
+})
+
 const _userPagination = t.Object({
     ..._pagination.properties,
     username: t.Optional(t.String()),

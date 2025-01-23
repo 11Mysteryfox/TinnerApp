@@ -29,7 +29,7 @@ export const UserService = {
     },
 
     getByUserName: async function (username: string): Promise<user> {
-        const user = await User.findOne({ username }).exec()
+        const user = await User.findOne({ username }).populate("photos").exec()
         if (user)
             return user.toUser()
         throw new Error(`username: "${username}" not found !!`)

@@ -10,6 +10,7 @@ export const AccountController = new Elysia({
 
     .use(jwtConfig)
     .use(AccountDto)
+
     .post('/login', async ({ body, jwt, set }) => {
         try {
             const user = await AccountService.login(body)
