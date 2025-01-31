@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { AccountService } from '../_service/account.service'
+import { AccountService } from '../_services/account.services'
 import { MatMenuModule } from '@angular/material/menu'
 
 @Component({
@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu'
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class headerComponent {
+export class HeaderComponent {
   private accountService = inject(AccountService)
   private router = inject(Router)
   user = computed(() => this.accountService.data()?.user)
