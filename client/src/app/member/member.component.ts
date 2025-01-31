@@ -10,5 +10,14 @@ import { HttpClient } from '@angular/common/http'
 })
 export class MemberComponent {
 
+  ngOnInit(): void {
+    this.memberService.getMembers()
+  }
+
+  onPageChange(event: PageEvent) {
+    const copyPaginator = this.paginator()
+    copyPaginator.pagination.currentPage = event.pageIndex + 1
+    copyPaginator.pagination.pageSize =
+  }
 }
 

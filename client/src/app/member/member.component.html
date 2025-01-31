@@ -1,1 +1,8 @@
-<p>member works!</p>
+<div>
+    @for (member of paginator().item; track member.id) {
+    <p>{{member.display_name}}</p>
+    }
+
+    <mat-paginator [length]="paginator().pagination.length" [pageSize]="paginator().pagination.pageSize"
+        [pageSizeOption]="pageSize"></mat-paginator>
+</div>
