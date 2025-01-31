@@ -1,4 +1,4 @@
-import { Component, computed, Inject, Signal } from '@angular/core'
+import { Component, computed, inject, Signal } from '@angular/core'
 import { AccountService } from '../_services/account.services'
 import { User } from '../_models/user'
 import { MemberComponent } from '../member/member.component'
@@ -10,7 +10,7 @@ import { MemberComponent } from '../member/member.component'
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  private accountService = Inject(AccountService)
+  private accountService = inject(AccountService)
   user: Signal<User | undefined>
 
   constructor() {
