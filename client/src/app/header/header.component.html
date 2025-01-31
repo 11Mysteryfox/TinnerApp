@@ -2,15 +2,16 @@
   <button class="home-button" routerLink="['/']" routerLinkActive="active" ariaCurrentWhenActive="page">
     <span>Tinner</span>
   </button>
-  <button class="home-button" routerLink="['/404']" routerLinkActive="active" ariaCurrentWhenActive="page">
+  <!-- <button class="home-button" routerLink="['/404']" routerLinkActive="active" ariaCurrentWhenActive="page">
     <span>Members</span>
   </button>
   <button class="home-button" routerLink="['/sever-error']" routerLinkActive="active" ariaCurrentWhenActive="page">
     <span>XYZ</span>
-  </button>
-  <span class="my-spacer"></span>
+  </button> -->
+
 
   @if(user()===undefined){
+  <span class="my-spacer"></span>
   <button routerLink="/login">
     <mat-icon>login</mat-icon>
     <span>Login</span>
@@ -24,12 +25,18 @@
     <span>following</span>
   </button>
 
-
-
-  <button (click)="logOut()">
-    <mat-icon>logout</mat-icon>
-    <span>logout</span>
-  </button>
+  <span class="my-spacer"></span>
+  <button mat-button[matMenuTriggerFor]="menu">{{user()?.display_name}}</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>manage_accounts</mat-icon>
+      Profile
+    </button>
+    <button mat-menu-item (click)="logOut()">
+      <mat-icon>logout</mat-icon>
+      <span>logout</span>
+    </button>
+  </mat-menu>
   }
   <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
     <mat-icon>favorite</mat-icon>

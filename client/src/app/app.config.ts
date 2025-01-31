@@ -10,6 +10,6 @@ export const appConfig: ApplicationConfig = {
   provideRouter(routes),
   provideAnimationsAsync(),
   provideHttpClient(),
-  importProvidersFrom(NgxSpinnerModule)
+    //importProvidersFrom(NgxSpinnerModule)
   ]
 }

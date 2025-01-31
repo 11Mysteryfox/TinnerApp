@@ -14,10 +14,11 @@ export interface User {
     gender?: string
     age?: string
     avatar?: string
-    photos?: Photo
+    photos?: Photo[]
     photoOFTheDay?: string
 
     follwers: User[] | String[]
     follwings: User[] | String[]
 
+    password?: string
 }

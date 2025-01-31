@@ -3,11 +3,14 @@ import { environment } from '../../environments/environment.development'
 import { HttpClient } from '@angular/common/http'
 import { User } from '../_models/user'
 import { firstValueFrom } from 'rxjs'
+import { parseUserPhoto } from '../_helper/helper'
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AccountService {
+
   private _key = 'account';
   private _baseApiUrl = environment.baseUrl + 'api/account/'
   private _http = inject(HttpClient)
@@ -16,6 +19,11 @@ export class AccountService {
 
   constructor() {
     this.loadDataFromLocalStorage()
+  }
+
+  logout() {
+    localStorage.removeItem(this._key)
+    this.data.set(null)
   }
 
   async login(loginData: { username: string, password: string }): Promise<string> {
@@ -32,8 +40,22 @@ export class AccountService {
     }
   }
 
+  async register(registerData: User): Promise<string> {
+    try {
+      const url = this._baseApiUrl + 'register'
+      const response = this._http.post<{ user: User, token: string }>(url, registerData)
+      const data = await firstValueFrom(response)
+      data.user = parseUserPhoto(data.user)
+      this.data.set(data)
+      this.saveDataToLocalStorage()
+      return ''
+    } catch (error: any) {
+      return error.error?.message
+    }
+  }
+
   private saveDataToLocalStorage() {
-    const jsonString = JSON.stringify(this.data)
+    const jsonString = JSON.stringify(this.data())
     localStorage.setItem(this._key, jsonString)
   }
 
@@ -44,3 +66,4 @@ export class AccountService {
       this.data.set(data)
     }
   }
+}

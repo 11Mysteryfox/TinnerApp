@@ -13,10 +13,15 @@ function getAvatar(user: User): string {
 
 function getPhotoOfTheDay(user: User): string {
     if (user.photos && user.photos.length > 0) {
-        const index = Math.random() * user.photos.length
+        const index = Math.floor(Math.random() * user.photos.length)
         return user.photos[index].url
 
     }
     return defaultImage
 }
 
+export function parseUserPhoto(user: User): User {
+    user.avatar = getAvatar(user)
+    user.photoOFTheDay = getPhotoOfTheDay(user)
+    return user
+}

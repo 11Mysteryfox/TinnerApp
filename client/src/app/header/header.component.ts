@@ -4,10 +4,11 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { AccountService } from '../_service/account.service'
+import { MatMenuModule } from '@angular/material/menu'
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
+  imports: [MatToolbarModule, MatMenuModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -16,5 +17,8 @@ export class headerComponent {
   private router = inject(Router)
   user = computed(() => this.accountService.data()?.user)
 
-  logout() { }
+  logOut() {
+    this.accountService.logout()
+    this.router.navigate(['/'])
+  }
 }

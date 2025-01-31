@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia"
-import { example } from "./controllers/example.controller"
+//import { example } from "./controllers/example.controller"
 import { swaggerConfig } from "./config/swagger.config"
 import { MongoDB } from "./config/database.config"
 import { tlsConfig } from "./config/tls.config"
@@ -10,6 +10,7 @@ import { UserController } from "./controllers/user.controller"
 import staticPlugin from "@elysiajs/static"
 import { PhotoController } from "./controllers/photo.controllers"
 import { ErrorController } from "./controllers/errorController"
+import { LikeController } from "./controllers/like.controller"
 
 
 MongoDB.connect()
@@ -22,6 +23,7 @@ const app = new Elysia()
   .use(AccountController)
   .use(UserController)
   .use(PhotoController)
+  .use(LikeController)
 
   .use(staticPlugin({
     assets: "public/uploads",
