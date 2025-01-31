@@ -66,4 +66,8 @@ export class AccountService {
       this.data.set(data)
     }
   }
+
+  private setUser(user: User) {
+    const copyData = 
+  }
 }

@@ -32,8 +32,7 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "node_module/ngx-spinner/animations/pacman.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
